@@ -1,0 +1,24 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Search recipe</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Find your next recipe</h1>
+        <form action="/search" method="POST">
+            <input type="text" name="query" placeholder="Search by recipe" required>
+            <button type="submit">Search recipe</button>
+        </form>
+        <h1>Find your next recipe by ingredients</h1>
+        <form action="/searchByIngredients" method="POST">
+            <input type="text" name="ingredients" placeholder="Enter ingredients separated by commas" required>
+            <button type="submit">Search recipe by ingrdients</button>
+        </form>
+</div>
+</body>
+</html>
