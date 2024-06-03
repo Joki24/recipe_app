@@ -46,6 +46,14 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
 app.post('/search', async (req, res) => {
     const {query} = req.body;
     try {
@@ -107,6 +115,35 @@ app.post('/register', async (req, res) => {
         res.status(500).json({ message: 'Error registering user', error: error.message });
     }
 });
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const userQuery = 'SELECT * FROM users WHERE email = $1';
+        const userResult = await pool.query(userQuery, [email]);
+
+        if (userResult.rows.length === 0) {
+            return res.status(400).json({ message: 'Invalid email or password'})
+        }
+
+        const user = userResult.rows[0];
+
+        // Compare the provided password with the hashed password in the database
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // User is authenticated
+        res.status(200).json({ message: 'Login successful' });
+
+    } catch (error) {
+        
+    }
+    }
+);
 
 const PORT = 5000;
 app.listen(PORT, () => {
