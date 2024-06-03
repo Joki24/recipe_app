@@ -5,6 +5,13 @@ const ejs = require('ejs');
 const helmet = require('helmet');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
+const crypto = require('crypto');
+require('dotenv').config();
+const session = require('express-session');
+
+
+// Generate a strong secret using crypto
+const sessionSecret = crypto.randomBytes(64).toString('hex');
 
 // Create a new client instance
 const pool = new Pool({
@@ -35,6 +42,13 @@ app.use(helmet({
             imgSrc: ["'self'", 'data:', 'https://spoonacular.com', 'https://img.spoonacular.com']
         }
     }
+}));
+
+app.use(session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 app.set('view engine', 'ejs');
@@ -107,9 +121,15 @@ app.post('/register', async (req, res) => {
 
         // Insert the new user into the database
         const newUserQuery = 'INSERT INTO users (username, email, password) VALUES ($1, $2, $3)';
-        await pool.query(newUserQuery, [username, email, hashedPassword]);
+        const newUserResult = await pool.query(newUserQuery, [username, email, hashedPassword]);
+        
+        const id = newUserResult.rows[0].id;
 
-        res.status(201).json({ message: 'User registered successfully' });
+        // Store user ID in session
+        req.session.id = id;
+
+        // Redirect to profile page
+        res.redirect(`/profile/${id}`);
     } catch (error) {
         console.error("Error registering user:", error);
         res.status(500).json({ message: 'Error registering user', error: error.message });
@@ -136,14 +156,35 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // User is authenticated
-        res.status(200).json({ message: 'Login successful' });
+        // Store user ID in session
+        req.session.id = user.id;
 
+        // Redirect to profile page
+        res.redirect(`/profile/${user.id}`);
     } catch (error) {
-        
+        console.error("Error logging in:", error);
+        res.status(500).json({ message: 'Error logging in', error: error.message });
     }
+});
+
+app.get('/profile/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const userQuery = 'SELECT * FROM users WHERE id = $1';
+        const userResult = await pool.query(userQuery, [id]);
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({message: 'User not found'})
+        }
+
+        const user = userResult.rows[0];
+        res.render('profile', {user});
+    } catch (error) {
+        console.error("Error fetching user profile:", error);
+        res.status(500).json({ message: 'Error fetching user profile', error: error.message });
     }
-);
+})
 
 const PORT = 5000;
 app.listen(PORT, () => {
