@@ -1,50 +1,12 @@
 {
   "name": "recipe-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Recipe App to find new ideas for meals",
   "main": "index.js",
+  "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@mapbox/node-pre-gyp": "^1.0.11",
-    "assert": "^2.1.0",
-    "async_hooks": "^1.0.0",
-    "aws-sdk": "^2.1633.0",
-    "axios": "^1.6.8",
-    "bcrypt": "^5.1.1",
-    "browserify-zlib": "^0.2.0",
-    "buffer": "^6.0.3",
-    "child_process": "^1.0.2",
-    "crypto-browserify": "^3.12.0",
-    "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "express": "^4.19.2",
-    "express-session": "^1.18.0",
-    "helmet": "^7.1.0",
-    "libpq": "^1.8.13",
-    "mock-aws-s3": "^4.0.2",
-    "nock": "^13.5.4",
-    "os-browserify": "^0.3.0",
-    "path-browserify": "^1.0.1",
-    "pg": "^8.11.5",
-    "pg-native": "^3.0.1",
-    "process": "^0.11.10",
-    "querystring-es3": "^0.2.1",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.3",
-    "vm-browserify": "^1.1.2"
-  },
-  "devDependencies": {
-    "babel-core": "^7.24.6",
-    "babel-loader": "^9.1.3",
-    "babel-preset-env": "^7.24.6",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
-  }
+  "author": "Jordan K",
+  "license": "ISC"
 }
