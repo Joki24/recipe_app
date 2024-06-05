@@ -9,7 +9,8 @@ const crypto = require('crypto');
 require('dotenv').config();
 const session = require('express-session');
 
-
+const app = express();
+const key_api = process.env.KEY_API;
 // Generate a strong secret using crypto
 const sessionSecret = crypto.randomBytes(64).toString('hex');
 
@@ -30,9 +31,6 @@ pool.connect((err, client, done) => {
     }
   });
 
-const app = express();
-const key_api = "95f8ddc9bbfd47149999562e49e41259";
-
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -48,15 +46,21 @@ app.use(session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: true } // Set to true if using HTTPS
 }));
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
 
 app.get('/', (req, res) => {
+    console.log('Received request for homepage');
     res.render('index');
 });
 
@@ -167,22 +171,21 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/profile/:id', async (req, res) => {
+app.get('/profile/:id', async (req, res, next) => {
     const id = req.params.id;
 
     try {
         const userQuery = 'SELECT * FROM users WHERE id = $1';
-        const userResult = await pool.query(userQuery, [id]);
+        const {rows} = await pool.query(userQuery, [id]);
 
-        if (userResult.rows.length === 0) {
+        if (rows.length === 0) {
             return res.status(404).json({message: 'User not found'})
         }
 
-        const user = userResult.rows[0];
+        const user = rows[0];
         res.render('profile', {user});
     } catch (error) {
-        console.error("Error fetching user profile:", error);
-        res.status(500).json({ message: 'Error fetching user profile', error: error.message });
+        next(error); // Pass the error to the error handling middlewar
     }
 })
 
@@ -196,10 +199,18 @@ process.on('SIGINT', async () => {
     try {
         await pool.end();
         console.log('Database connection closed');
-        server.close(() => {
-            console.log('Server shut down');
-            process.exit(0);
-        });
+        process.exit(1);
+    } catch (error) {
+        console.error('Error closing database connection:', error);
+        process.exit(1);
+    }
+});
+
+process.on('SIGTERM', async () => {
+    try {
+        await pool.end();
+        console.log('Database connection closed');
+        process.exit(0);
     } catch (error) {
         console.error('Error closing database connection:', error);
         process.exit(1);
