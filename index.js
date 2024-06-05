@@ -141,28 +141,34 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+    console.log('Received login request');
     const { email, password } = req.body;
 
     try {
+        console.log('Attempting to query user from database');
         const userQuery = 'SELECT * FROM users WHERE email = $1';
         const userResult = await pool.query(userQuery, [email]);
 
         if (userResult.rows.length === 0) {
+            console.log('User not found');
             return res.status(400).json({ message: 'Invalid email or password'})
         }
 
         const user = userResult.rows[0];
 
+        console.log('Comparing passwords');
         // Compare the provided password with the hashed password in the database
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
+            console.log('Invalid password');
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Store user ID in session
         req.session.id = user.id;
 
+        console.log('Login successful');
         // Redirect to profile page
         res.redirect(`/profile/${user.id}`);
     } catch (error) {
