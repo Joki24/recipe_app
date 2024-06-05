@@ -15,19 +15,19 @@ const sessionSecret = crypto.randomBytes(64).toString('hex');
 
 // Create a new client instance
 const pool = new Pool({
-    user: 'macbook',
-    host: 'localhost',
-    database: 'recipe_app',
-    port: 5432,
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
   });
 
 // Connect to the database
-pool.connect()
-  .then(() => {
-    console.log('Connected to the database');
-  })
-  .catch((error) => {
-    console.error('Error connecting to the database:', error);
+pool.connect((err, client, done) => {
+    if (err) {
+      console.error('Error connecting to the database:', err.stack);
+    } else {
+      console.log('Connected to the database');
+    }
   });
 
 const app = express();
