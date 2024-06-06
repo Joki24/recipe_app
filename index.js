@@ -73,6 +73,11 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+app.get('/test-ejs', (req, res) => {
+    res.render('test-ejs'); // Ensure there's a 'test-ejs.ejs' file in the 'views' directory
+});
+
+
 app.post('/search', async (req, res) => {
     const {query} = req.body;
     try {
@@ -142,24 +147,21 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    console.log('Received login request');
     const { email, password } = req.body;
     console.log(`Login attempt with email: ${email}`);
 
     try {
-        console.log('Attempting to query user from database');
         const userQuery = 'SELECT * FROM users WHERE email = $1';
         const userResult = await pool.query(userQuery, [email]);
 
         if (userResult.rows.length === 0) {
-            console.log('User not found');
+            console.log('Invalid email');
             return res.status(400).json({ message: 'Invalid email or password'})
         }
 
         const user = userResult.rows[0];
         console.log('User found:', user);
 
-        console.log('Comparing passwords');
         // Compare the provided password with the hashed password in the database
         const isPasswordValid = await bcrypt.compare(password, user.password);
         console.log('Password valid:', isPasswordValid);
@@ -169,10 +171,10 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // // Store user ID in session
-        // req.session.id = user.id;
+        // Store user ID in session
+        req.session.id = user.id;
 
-        // console.log('Login successful');
+        console.log('Login successful');
         // Redirect to profile page
         res.redirect(`/profile/${user.id}`);
     } catch (error) {
@@ -183,18 +185,22 @@ app.post('/login', async (req, res) => {
 
 app.get('/profile/:id', async (req, res, next) => {
     const id = req.params.id;
+    console.log(`Fetching profile for user ID: ${id}`);
 
     try {
         const userQuery = 'SELECT * FROM users WHERE id = $1';
         const {rows} = await pool.query(userQuery, [id]);
 
         if (rows.length === 0) {
+            console.log('User not found');
             return res.status(404).json({message: 'User not found'})
         }
 
         const user = rows[0];
+        console.log('User profile:', user);
         res.render('profile', {user});
     } catch (error) {
+        console.error("Error fetching user profile:", error);
         next(error); // Pass the error to the error handling middlewar
     }
 });
