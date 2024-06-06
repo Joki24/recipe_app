@@ -5,6 +5,11 @@ body {
     margin: 0;
     padding: 0;
   }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+  }
   
   .container {
     max-width: 800px;

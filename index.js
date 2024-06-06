@@ -46,7 +46,7 @@ app.use(session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Set to true if using HTTPS
+    cookie: { secure: process.env.NODE_ENV === 'production' } // Only secure in production
 }));
 
 app.set('view engine', 'ejs');
@@ -57,6 +57,7 @@ app.use(express.json());
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send(`Error: ${err.message}`);
+    res.status(500).send('Something went wrong!');
 });
 
 app.get('/', (req, res) => {
@@ -143,6 +144,7 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     console.log('Received login request');
     const { email, password } = req.body;
+    console.log(`Login attempt with email: ${email}`);
 
     try {
         console.log('Attempting to query user from database');
@@ -155,20 +157,22 @@ app.post('/login', async (req, res) => {
         }
 
         const user = userResult.rows[0];
+        console.log('User found:', user);
 
         console.log('Comparing passwords');
         // Compare the provided password with the hashed password in the database
         const isPasswordValid = await bcrypt.compare(password, user.password);
+        console.log('Password valid:', isPasswordValid);
 
         if (!isPasswordValid) {
             console.log('Invalid password');
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        // Store user ID in session
-        req.session.id = user.id;
+        // // Store user ID in session
+        // req.session.id = user.id;
 
-        console.log('Login successful');
+        // console.log('Login successful');
         // Redirect to profile page
         res.redirect(`/profile/${user.id}`);
     } catch (error) {
@@ -193,12 +197,28 @@ app.get('/profile/:id', async (req, res, next) => {
     } catch (error) {
         next(error); // Pass the error to the error handling middlewar
     }
-})
+});
+
+app.get('/test-db', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT NOW()');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database connection error:', error);
+        res.status(500).send('Database connection error');
+    }
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 });
+
+app.get('/test-ejs', (req, res) => {
+    res.render('test', { message: 'EJS is working' });
+});
+
 
 // Close the database connection when the server is shutting down
 process.on('SIGINT', async () => {
