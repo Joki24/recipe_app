@@ -11,6 +11,7 @@ const session = require('express-session');
 
 const app = express();
 const key_api = process.env.KEY_API;
+
 // Generate a strong secret using crypto
 const sessionSecret = crypto.randomBytes(64).toString('hex');
 
@@ -53,10 +54,10 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send(`Error: ${err.message}`);
     res.status(500).send('Something went wrong!');
 });
 
@@ -83,7 +84,7 @@ app.post('/search', async (req, res) => {
     try {
         const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${key_api}`);
         const recipes = response.data.results;
-        res.render('results', {recipes});
+        res.render('results', { recipes  });
     } catch (error) {
         res.status(500).send("Error fetching data from Spoonacular API.");
     }
@@ -136,7 +137,7 @@ app.post('/register', async (req, res) => {
         const id = newUserResult.rows[0].id;
 
         // Store user ID in session
-        req.session.id = id;
+        req.session.userId = id;
 
         // Redirect to profile page
         res.redirect(`/profile/${id}`);
@@ -172,7 +173,7 @@ app.post('/login', async (req, res) => {
         }
 
         // Store user ID in session
-        req.session.id = user.id;
+        req.session.userId = user.id;
 
         console.log('Login successful');
         // Redirect to profile page
