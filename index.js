@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
 const crypto = require('crypto');
+const path = require('path');
 require('dotenv').config();
 const session = require('express-session');
 
@@ -222,11 +223,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 });
-
-app.get('/test-ejs', (req, res) => {
-    res.render('test', { message: 'EJS is working' });
-});
-
 
 // Close the database connection when the server is shutting down
 process.on('SIGINT', async () => {
