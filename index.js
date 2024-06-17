@@ -7,6 +7,10 @@ const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
 const crypto = require('crypto');
 const path = require('path');
+
+console.log('__dirname:', __dirname); // Check the current directory of index.js
+console.log('Resolved views path:', path.join(__dirname, 'views')); // Check the resolved views path
+
 require('dotenv').config();
 const session = require('express-session');
 
@@ -73,7 +77,8 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    // res.render('login');
+    res.sendFile(path.join(__dirname, 'views', 'login.ejs'));
 });
 
 app.get('/test-ejs', (req, res) => {
