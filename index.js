@@ -50,6 +50,7 @@ app.use(session({
     cookie: { secure: process.env.NODE_ENV === 'production' } // Only secure in production
 }));
 
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
