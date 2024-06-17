@@ -77,8 +77,7 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    // res.render('login');
-    res.sendFile(path.join(__dirname, 'views', 'login.ejs'));
+    res.render('login');
 });
 
 app.get('/test-ejs', (req, res) => {
