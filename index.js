@@ -77,7 +77,7 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login.ejs');
 });
 
 app.get('/test-ejs', (req, res) => {
