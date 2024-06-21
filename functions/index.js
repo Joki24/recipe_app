@@ -1,21 +1,15 @@
+const functions = require("firebase-functions");
 const express = require("express");
-const axios = require("axios");
-const ejs = require("ejs");
-const helmet = require("helmet");
-const bcrypt = require("bcrypt");
+const session = require("express-session");
 const { Pool } = require("pg");
+const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const path = require("path");
-require("dotenv").config();
-const session = require("express-session");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
-const key_api = process.env.KEY_API;
-
-// Generate a strong secret using crypto
-const sessionSecret = crypto.randomBytes(64).toString("hex");
-
-// Create a new client instance
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -37,8 +31,8 @@ app.use(helmet({
   contentSecurityPolicy: false // Modify as per your specific needs
 }));
 
-app.use(session({
-  secret: sessionSecret,
+pp.use(session({
+  secret: crypto.randomBytes(64).toString("hex"),
   resave: false,
   saveUninitialized: true,
   cookie: { secure: process.env.NODE_ENV === "production" }
@@ -311,3 +305,6 @@ process.on("SIGTERM", async () => {
     process.exit(1);
   }
 });
+
+
+exports.app = functions.https.onRequest(app);
