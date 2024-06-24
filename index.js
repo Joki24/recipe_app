@@ -170,6 +170,9 @@ app.post("/login", async (req, res) => {
     // Store user ID in session
     req.session.userId = user.id;
     console.log("Login successful");
+    console.log(`${req.session.userId}`)
+    console.log(`${user.id}`)
+
 
     // Redirect to profile page
     res.redirect(`/profile/${user.id}`);
