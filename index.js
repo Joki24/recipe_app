@@ -98,10 +98,6 @@ app.get("/test-ejs", (req, res) => {
   res.render("test-ejs"); // Ensure there's a 'test-ejs.ejs' file in the 'views' directory
 });
 
-// Catch all other routes and return 404
-app.get('*', function(req, res){
-  res.status(404).send('Page not found');
-});
 
 app.post("/search", async (req, res) => {
   const { query } = req.body;
