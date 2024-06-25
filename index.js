@@ -254,7 +254,7 @@ app.post("/profile/change-password", isAuthenticated, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   try {
-    const userQuery = "SELECT * FROM users id = $1";
+    const userQuery = "SELECT * FROM users WHERE id = $1";
     const userResult = await pool.query(userQuery, [userId]);
         
     if (userResult.rows.length === 0) {
