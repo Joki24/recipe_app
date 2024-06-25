@@ -9,6 +9,7 @@ const crypto = require("crypto");
 const path = require("path");
 require("dotenv").config();
 const session = require("express-session");
+const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
 const key_api = process.env.KEY_API;
@@ -24,25 +25,42 @@ const pool = new Pool({
   }
 });
 
-// Connect to the database
-pool.connect((err, client, done) => {
-  if (err) {
-    console.error("Error connecting to the database:", err.stack);
-  } else {
-    console.log("Connected to the database");
-  }
-});
+// // Connect to the database
+// pool.connect((err, client, done) => {
+//   if (err) {
+//     console.error("Error connecting to the database:", err.stack);
+//   } else {
+//     console.log("Connected to the database");
+//   }
+// });
 
 // Middleware
 app.use(helmet({
   contentSecurityPolicy: false // Modify as per your specific needs
 }));
 
+app.set('trust proxy', 1); // Trust first proxy (Heroku-specific)
+
+// app.use(session({
+//   secret: sessionSecret,
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: { secure: process.env.NODE_ENV === "production" }
+// }));
+
+// Configure session store with PostgreSQL
 app.use(session({
+  store: new pgSession({
+    pool: pool, // Connection pool
+    tableName: 'session' // Use a specific table for storing sessions
+  }),
   secret: sessionSecret,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === "production" }
+  cookie: {
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+  }
 }));
 
 app.use(express.static("public"));
@@ -171,7 +189,6 @@ app.post("/login", async (req, res) => {
     req.session.userId = user.id;
     console.log("Login successful");
     console.log(`${req.session.userId}`)
-    console.log(`${user.id}`)
 
 
     // Redirect to profile page
@@ -183,7 +200,6 @@ app.post("/login", async (req, res) => {
 });
 
 const isAuthenticated = (req, res, next) => {
-  
   if (req.session.userId) {
     return next();
   }
