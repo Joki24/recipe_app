@@ -32,10 +32,10 @@
         <h2>Change Password</h2>
         <form action="/profile/change-password" method="POST">
             <label for="currentPassword">Current Password:</label>
-            <input type="password" id="currentPassword" name="currentPassword" required>
+            <input type="password" id="currentPassword" name="currentPassword" required autocomplete="current-password">
             <br>
             <label for="newPassword">New Password:</label>
-            <input type="password" id="newPassword" name="newPassword" required>
+            <input type="password" id="newPassword" name="newPassword" required autocomplete="new-password">
             <br>
             <button type="submit">Change Password</button>
         </form>
