@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile page</title>
     <link rel="stylesheet" href="/public/styles.css">
-    <link rel="stylesheet" href="/public/profile.css">
+    <!-- <link rel="stylesheet" href="/public/profile.css"> -->
 </head>
 <body>
     <div class="sidebar">
@@ -22,10 +22,10 @@
         <h2>Update Profile</h2>
         <form action="/profile/update" method="POST">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<%= user.username %>" required autocomplete="current-profileName">
+            <input type="text" id="username" name="username" value="<%= user.username %>" required autocomplete="username">
             <br>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= user.email %>" required autocomplete="new-profileName">
+            <input type="email" id="email" name="email" value="<%= user.email %>" required autocomplete="email">
             <br>
             <button type="submit">Update Profile</button>
         </form>
