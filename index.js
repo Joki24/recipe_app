@@ -14,8 +14,8 @@ const pgSession = require('connect-pg-simple')(session);
 const app = express();
 const key_api = process.env.KEY_API;
 
-// Generate a strong secret using crypto
-const sessionSecret = crypto.randomBytes(64).toString("hex");
+// Generate a strong secret using crypto or from env
+const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
 
 // Create a new client instance
 const pool = new Pool({
@@ -68,19 +68,8 @@ app.use(session({
 //     res.set('Content-Type', 'text/css');
 //   }
 // }));
-app.use((req, res, next) => {
-  if (req.url.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css');
-  }
-  next();
-});
-app.use(express.static(path.join(__dirname, '/public'), {
-  setHeaders: (res, path, stat) => {
-    if (path.endsWith('.css')) {
-      res.set('Content-Type', 'text/css');
-    }
-  }
-}));
+
+app.use(express.static(path.join(__dirname, '/public')));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
