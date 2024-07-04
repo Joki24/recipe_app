@@ -437,6 +437,7 @@ app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
         WHERE user_id = $1 AND recipe_id = $2
       `;
       await pool.query(unlikeQuery, [userId, recipeId]);
+      console.log(`Recipe ${recipeId} unliked by user ${userId}`);
     } else {
       // Recipe is not liked yet, so like it (insert into liked_recipes)
       const getRecipeQuery = `
