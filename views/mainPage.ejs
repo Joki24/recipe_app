@@ -242,20 +242,22 @@
                 <div class="recipes">
                     <% needToTryRecipes.forEach(recipe => { %>
                         <div class="recipe">
-                            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-                            <i class="recipe-like fas fa-heart <% if (userFavorites.includes(recipe.id)) { %>active<% } %>" data-recipe-id="<%= recipe.id %>"></i>
-                            <div class="details">
-                                <h3><%= recipe.title %></h3>
-                                <p>
-                                    <% if (recipe) { %>
-                                        <b>$<%= recipe.pricePerServing ? recipe.pricePerServing.toFixed(2) : 'N/A' %> per serving</b>,
-                                        Serves <b><%= recipe.servings ? recipe.servings : 'N/A' %></b>.
-                                        Prep time: <b><%= recipe.readyInMinutes ? recipe.readyInMinutes + ' minutes' : 'N/A' %></b>.
-                                    <% } else { %>
-                                        Recipe details not available.
-                                    <% } %>
-                                </p>
-                            </div>
+                            <a href="/recipe/<%= recipe.id %>"> <!-- Link to recipe detail page -->
+                                <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                                <i class="recipe-like fas fa-heart <% if (userFavorites.includes(recipe.id)) { %>active<% } %>" data-recipe-id="<%= recipe.id %>"></i>
+                                <div class="details">
+                                    <h3><%= recipe.title %></h3>
+                                    <p>
+                                        <% if (recipe) { %>
+                                            <b>$<%= recipe.pricePerServing ? recipe.pricePerServing.toFixed(2) : 'N/A' %> per serving</b>,
+                                            Serves <b><%= recipe.servings ? recipe.servings : 'N/A' %></b>.
+                                            Prep time: <b><%= recipe.readyInMinutes ? recipe.readyInMinutes + ' minutes' : 'N/A' %></b>.
+                                        <% } else { %>
+                                            Recipe details not available.
+                                        <% } %>
+                                    </p>
+                                </div>
+                            </a>
                         </div>
                     <% }); %>
                 </div>
@@ -266,20 +268,22 @@
                 <div class="recipes">
                     <% summerSelectionRecipes.forEach(recipe => { %>
                         <div class="recipe">
-                            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-                            <i class="recipe-like fas fa-heart <% if (userFavorites.includes(recipe.id)) { %>active<% } %>" data-recipe-id="<%= recipe.id %>"></i>
-                            <div class="details">
-                                <h3><%= recipe.title %></h3>
-                                <p>
-                                    <% if (recipe) { %>
-                                        <b>$<%= recipe.pricePerServing ? recipe.pricePerServing.toFixed(2) : 'N/A' %> per serving</b>,
-                                        Serves <b><%= recipe.servings ? recipe.servings : 'N/A' %></b>.
-                                        Prep time: <b><%= recipe.readyInMinutes ? recipe.readyInMinutes + ' minutes' : 'N/A' %></b>.
-                                    <% } else { %>
-                                        Recipe details not available.
-                                    <% } %>
-                                </p>
-                            </div>
+                            <a href="/recipe/<%= recipe.id %>"> <!-- Link to recipe detail page -->
+                                <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                                <i class="recipe-like fas fa-heart <% if (userFavorites.includes(recipe.id)) { %>active<% } %>" data-recipe-id="<%= recipe.id %>"></i>
+                                <div class="details">
+                                    <h3><%= recipe.title %></h3>
+                                    <p>
+                                        <% if (recipe) { %>
+                                            <b>$<%= recipe.pricePerServing ? recipe.pricePerServing.toFixed(2) : 'N/A' %> per serving</b>,
+                                            Serves <b><%= recipe.servings ? recipe.servings : 'N/A' %></b>.
+                                            Prep time: <b><%= recipe.readyInMinutes ? recipe.readyInMinutes + ' minutes' : 'N/A' %></b>.
+                                        <% } else { %>
+                                            Recipe details not available.
+                                        <% } %>
+                                    </p>
+                                </div>
+                            </a>
                         </div>
                     <% }); %>
                 </div>

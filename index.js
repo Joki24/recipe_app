@@ -218,15 +218,16 @@ app.post("/searchByIngredients", async (req, res) => {
   }
 });
 
-app.get("/recipe/:id", async (req, res) => {
+// Define route to fetch recipe details
+app.get('/recipe/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${key_api}`);
-    const recipe = response.data;
-    res.render("recipe", { recipe });
+      const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${key_api}`);
+      const recipe = response.data;
+      res.render('recipe', { recipe });
   } catch (error) {
-    console.error("Error fetching recipe information:", error);
-    res.status(500).send("Error fetching recipe information from Spoonacular API.");
+      console.error('Error fetching recipe information:', error);
+      res.status(500).send('Error fetching recipe information from Spoonacular API.');
   }
 });
 
