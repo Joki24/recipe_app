@@ -47,7 +47,7 @@ app.use(helmet({
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts", 
         "https://kit-free.fontawesome.com", 
         "https://ka-f.fontawesome.com",
-      ],// Added https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts
+      ],
       imgSrc: ["'self'", "data:", "https://img.spoonacular.com"],
       connectSrc: ["'self'", "https://api.spoonacular.com", "https://ka-f.fontawesome.com"],
       objectSrc: ["'none'"],
@@ -459,11 +459,12 @@ app.get('/favorites', isAuthenticated, async (req, res) => {
   }
 });
 
-// Route to handle recipe like
 // Route to handle recipe like/unlike
 app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
   const { recipeId } = req.params;
   const userId = req.session.userId;
+  
+  console.log(`Received like request for recipeId ${recipeId} by userId ${userId}`);
 
   try {
     // Check if the recipe is already liked by the user
@@ -495,6 +496,7 @@ app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
           VALUES ($1, $2, $3, $4)
         `;
         await pool.query(insertLikeQuery, [userId, recipeId, title, image]);
+        console.log(`Recipe ${recipeId} liked by user ${userId}`);
       }
     }
 
