@@ -12,12 +12,10 @@
     <div class="recipes">
         <% favoriteRecipes.forEach(recipe => { %>
             <div class="recipe">
-                <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                <img src="<%= recipe.recipe_image %>" alt="<%= recipe.recipe_title %>">
                 <div class="details">
-                    <h3><%= recipe.title %></h3>
-                    <p>
-                        <!-- Additional recipe details -->
-                    </p>
+                    <h3><%= recipe.recipe_title %></h3>
+                    <!-- Additional recipe details -->
                 </div>
             </div>
         <% }); %>

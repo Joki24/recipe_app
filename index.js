@@ -180,28 +180,18 @@ app.get('/explore', async (req, res) => {
 // Function to fetch user favorites (liked recipes) based on user_id
 async function fetchUserFavorites(userId) {
   try {
-    // Connect to the database
-    const client = await pool.connect();
-
-    // SQL query to fetch liked recipes for a specific user
     const query = {
       text: 'SELECT * FROM liked_recipes WHERE user_id = $1',
       values: [userId]
     };
-
-    // Execute the query
-    const result = await client.query(query);
-
-    // Release the client back to the pool
-    client.release();
-
-    // Return the fetched liked recipes
+    const result = await pool.query(query);
     return result.rows;
   } catch (error) {
     console.error('Error fetching user favorites:', error);
-    throw error; // Throw the error to handle it further up the call stack
+    throw error;
   }
 }
+
 
 app.get("/register", (req, res) => {
   res.render("register");
@@ -445,12 +435,7 @@ app.get('/favorites', isAuthenticated, async (req, res) => {
   const userId = req.session.userId;
   
   try {
-    const favoritesQuery = `
-      SELECT * FROM liked_recipes 
-      WHERE user_id = $1
-    `;
-    const { rows: favoriteRecipes } = await pool.query(favoritesQuery, [userId]);
-    
+    const favoriteRecipes = await fetchUserFavorites(userId);
     res.render('favorites', { favoriteRecipes });
   } catch (error) {
     console.error('Error fetching favorite recipes:', error);
