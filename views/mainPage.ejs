@@ -185,8 +185,8 @@
             right: 10px;
             cursor: pointer;
             color: #ccc;
-            z-index: 1; /* Ensure it's above the image */
-            transition: color 0.3s ease; /* Smooth transition for color change */
+            transition: color 0.3s ease;
+            z-index: 1; /* Ensure it's above other content */
         }
         .recipe-like.active {
             color: red;
@@ -243,6 +243,7 @@
                     <% needToTryRecipes.forEach(recipe => { %>
                         <div class="recipe">
                             <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                            <i class="recipe-like fas fa-heart" data-recipe-id="<%= recipe.id %>"></i>
                             <div class="details">
                                 <h3><%= recipe.title %></h3>
                                 <p>
@@ -266,6 +267,7 @@
                     <% summerSelectionRecipes.forEach(recipe => { %>
                         <div class="recipe">
                             <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                            <i class="recipe-like fas fa-heart" data-recipe-id="<%= recipe.id %>"></i>
                             <div class="details">
                                 <h3><%= recipe.title %></h3>
                                 <p>
@@ -286,25 +288,25 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const likeButtons = document.querySelectorAll('.recipe-like');
+    const likeButtons = document.querySelectorAll('.recipe-like');
 
-            likeButtons.forEach(button => {
-                button.addEventListener('click', async () => {
-                    const recipeId = button.getAttribute('data-recipe-id');
-                    const response = await fetch(`/like/${recipeId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ recipeId })
-                    });
-
-                    if (response.ok) {
-                        button.classList.toggle('active');
-                    }
-                });
+    likeButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const recipeId = button.getAttribute('data-recipe-id');
+            const response = await fetch(`/like/${recipeId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ recipeId })
             });
+
+            if (response.ok) {
+                button.classList.toggle('active');
+            }
         });
+    });
+});
     </script>
 </body>
 </html>
