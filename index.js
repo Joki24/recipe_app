@@ -426,7 +426,7 @@ app.get('/favorites', isAuthenticated, async (req, res) => {
 // Route to handle recipe like/unlike
 app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
   const { recipeId } = req.params;
-  const userId = req.session.userId; // Ensure req.session.userId is correctly set
+  const userId = req.session.userId;
 
   console.log(`Received like request for recipeId ${recipeId} by userId ${userId}`);
 
@@ -446,32 +446,26 @@ app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
       `;
       await pool.query(unlikeQuery, [userId, recipeId]);
       console.log(`Recipe ${recipeId} unliked by user ${userId}`);
+      res.sendStatus(200); // Send success response
     } else {
       // Recipe is not liked yet, so like it (insert into liked_recipes)
-      const getRecipeQuery = `
-        SELECT title, image FROM recipes WHERE id = $1
+      // Fetch recipe details from Spoonacular API
+      const recipeResponse = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${key_api}`);
+      const { title, image } = recipeResponse.data;
+
+      const insertLikeQuery = `
+        INSERT INTO liked_recipes (user_id, recipe_id, recipe_title, recipe_image)
+        VALUES ($1, $2, $3, $4)
       `;
-      const { rows } = await pool.query(getRecipeQuery, [recipeId]);
-
-      if (rows.length > 0) {
-        const { title, image } = rows[0];
-        const insertLikeQuery = `
-          INSERT INTO liked_recipes (user_id, recipe_id, recipe_title, recipe_image)
-          VALUES ($1, $2, $3, $4)
-        `;
-        await pool.query(insertLikeQuery, [userId, recipeId, title, image]);
-        console.log(`Recipe ${recipeId} liked by user ${userId}`);
-      }
+      await pool.query(insertLikeQuery, [userId, recipeId, title, image]);
+      console.log(`Recipe ${recipeId} liked by user ${userId}`);
+      res.sendStatus(200); // Send success response
     }
-
-    res.sendStatus(200); // Send success response
   } catch (error) {
     console.error('Error handling like:', error);
     res.sendStatus(500); // Send error response
   }
 });
-
-
 
 // 404 Error handler
 app.use((req, res) => {

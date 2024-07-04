@@ -287,26 +287,26 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const likeButtons = document.querySelectorAll('.recipe-like');
+        document.querySelectorAll('.like-button').forEach(button => {
+  button.addEventListener('click', async (event) => {
+    const recipeId = event.target.dataset.recipeId;
+    try {
+      const response = await fetch(`/like/${recipeId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-            likeButtons.forEach(button => {
-                button.addEventListener('click', async () => {
-                    const recipeId = button.getAttribute('data-recipe-id');
-                    const response = await fetch(`/like/${recipeId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ recipeId })
-                    });
-
-                    if (response.ok) {
-                        button.classList.toggle('active');
-                    }
-                });
-            });
-        });
+      if (response.ok) {
+        // Update UI to reflect like/unlike state
+        event.target.classList.toggle('liked');
+      } else {
+        console.error('Error liking/unliking recipe');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+});
     </script>
 </body>
 </html>
