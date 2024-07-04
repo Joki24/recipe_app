@@ -54,12 +54,15 @@
             font-size: 24px;
         }
         .container {
-            margin-top: 800px;
+            margin-top: 0; /* Adjust margin-top as needed */
             width: calc(100% - 80px); /* Adjust width to account for sidebar */
             max-width: 1200px; /* Max width of content */
             padding: 40px;
             margin-left: 80px; /* Ensure content doesn't overlap sidebar */
             box-sizing: border-box; /* Include padding in width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .container h1 {
             font-size: 32px;
@@ -73,6 +76,9 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
+            width: 100%;
+            max-width: 600px; /* Adjust max-width as needed */
+            box-sizing: border-box;
         }
         .search-area h1 {
             font-size: 32px;
@@ -94,10 +100,10 @@
             white-space: nowrap; /* Keep items on a single line */
             margin-bottom: 40px;
             padding-bottom: 10px; /* Add some space for the scrollbar */
+            display: flex;
+            justify-content: center;
         }
         .category {
-            display: inline-block;
-            vertical-align: top;
             text-align: center;
             margin-right: 20px; /* Adjust spacing between categories */
             padding: 10px;
@@ -117,19 +123,22 @@
         }
         .sections {
             margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .section {
             margin-bottom: 30px;
-            display: inline-block;
-            vertical-align: top;
-            margin-right: 20px; /* Adjust spacing between sections */
             padding: 20px;
             background-color: #FFFFFF;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px; /* Adjust max-width as needed */
+            box-sizing: border-box;
         }
         .section:last-child {
-            margin-right: 0;
+            margin-bottom: 0;
         }
         .section h2 {
             font-size: 24px;
@@ -139,8 +148,9 @@
         }
         .section .recipes {
             display: flex;
-            overflow-x: auto; /* Enable horizontal scrolling */
+            flex-wrap: wrap;
             gap: 20px;
+            justify-content: center;
         }
         .recipe {
             position: relative; /* Ensure relative positioning for absolute child */
@@ -233,6 +243,9 @@
                     <% needToTryRecipes.forEach(recipe => { %>
                         <div class="recipe">
                             <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                            <div class="recipe-like" data-recipe-id="<%= recipe.id %>">
+                                <i class="fas fa-heart"></i>
+                            </div>
                             <div class="details">
                                 <h3><%= recipe.title %></h3>
                                 <p>
@@ -244,13 +257,6 @@
                                         Recipe details not available.
                                     <% } %>
                                 </p>
-                                <% if (userId) { %>
-                                    <form action="/like/<%= recipe.id %>" method="POST">
-                                        <button type="submit">
-                                            <i class="fas fa-heart"></i> Like
-                                        </button>
-                                    </form>
-                                <% } %>
                             </div>
                         </div>
                     <% }); %>
@@ -263,6 +269,9 @@
                     <% summerSelectionRecipes.forEach(recipe => { %>
                         <div class="recipe">
                             <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                            <div class="recipe-like" data-recipe-id="<%= recipe.id %>">
+                                <i class="fas fa-heart"></i>
+                            </div>
                             <div class="details">
                                 <h3><%= recipe.title %></h3>
                                 <p>
@@ -274,13 +283,6 @@
                                         Recipe details not available.
                                     <% } %>
                                 </p>
-                                <% if (userId) { %>
-                                    <form action="/like/<%= recipe.id %>" method="POST">
-                                        <button type="submit">
-                                            <i class="fas fa-heart"></i> Like
-                                        </button>
-                                    </form>
-                                <% } %>
                             </div>
                         </div>
                     <% }); %>

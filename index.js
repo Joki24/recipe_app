@@ -433,6 +433,7 @@ app.get('/favorites', isAuthenticated, async (req, res) => {
 });
 
 // Route to handle recipe like
+// Route to handle recipe like/unlike
 app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
   const { recipeId } = req.params;
   const userId = req.session.userId;
