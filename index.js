@@ -150,32 +150,27 @@ app.post("/", async (req, res) => {
 app.get('/explore', async (req, res) => {
   try {
     console.log("Fetching 'Need to try' recipes...");
-    // Fetch "Need to try" recipes
     const needToTryResponse = await axios.get(`https://api.spoonacular.com/recipes/random?number=3&apiKey=${key_api}`);
     const needToTryRecipes = needToTryResponse.data.recipes;
-    console.log("Fetched 'Need to try' recipes:", needToTryRecipes);
 
     console.log("Fetching 'Summer selection' recipes...");
-    // Fetch "Summer selection" recipes
     const summerSelectionResponse = await axios.get(`https://api.spoonacular.com/recipes/random?number=3&tags=summer&apiKey=${key_api}`);
     const summerSelectionRecipes = summerSelectionResponse.data.recipes;
-    console.log("Fetched 'Summer selection' recipes:", summerSelectionRecipes);
 
-    // Example: Fetch userFavorites (replace with your actual logic to fetch user favorites)
-    const userFavorites = await fetchUserFavorites(req.session.userId); // Example function to fetch user favorites
+    const userFavorites = await fetchUserFavorites(req.session.userId);
 
-    // Pass userId, recipes, and userFavorites to the template
     res.render('mainPage', {
       needToTryRecipes,
       summerSelectionRecipes,
-      userId: req.session.userId, // pass userId to EJS template
-      userFavorites // pass userFavorites to EJS template
+      userId: req.session.userId,
+      userFavorites
     });
   } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).send("Error fetching data.");
+    console.error('Error fetching data:', error.message);
+    res.status(500).send('Error fetching data.');
   }
 });
+
 
 // Function to fetch user favorites (liked recipes) based on user_id
 async function fetchUserFavorites(userId) {
