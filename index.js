@@ -149,9 +149,11 @@ app.get('/explore', async (req, res) => {
     console.log("Need to try recipes:", needToTryRecipes);
     console.log("Summer selection recipes:", summerSelectionRecipes);
 
+    // Pass userId to the template
     res.render('mainPage', {
-      needToTryRecipes,        // Ensure needToTryRecipes is passed to the template
-      summerSelectionRecipes
+      needToTryRecipes,
+      summerSelectionRecipes,
+      userId: req.session.userId // pass userId to EJS template
     });
   } catch (error) {
     console.error("Error fetching data from Spoonacular API:", error);
