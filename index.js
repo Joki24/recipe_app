@@ -441,7 +441,6 @@ app.get("/test-db", async (req, res) => {
   }
 });
 
-// index.js
 app.get('/favorites', isAuthenticated, async (req, res) => {
   const userId = req.session.userId;
   
@@ -462,8 +461,8 @@ app.get('/favorites', isAuthenticated, async (req, res) => {
 // Route to handle recipe like/unlike
 app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
   const { recipeId } = req.params;
-  const userId = req.session.userId;
-  
+  const userId = req.session.userId; // Ensure req.session.userId is correctly set
+
   console.log(`Received like request for recipeId ${recipeId} by userId ${userId}`);
 
   try {
@@ -506,6 +505,7 @@ app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
     res.sendStatus(500); // Send error response
   }
 });
+
 
 // 404 Error handler
 app.use((req, res) => {
