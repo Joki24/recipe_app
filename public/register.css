@@ -1,0 +1,86 @@
+/* register.css */
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f6f5f5;
+    margin: 0;
+    padding: 0;
+    color: #3B3A30;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #304034;
+    color: #F5F3EE;
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 20px 0;
+    color: #F5F3EE;
+}
+
+form {
+    width: 80%;
+    max-width: 400px;
+    background-color: #304034;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    color: #F5F3EE;
+    margin-bottom: 10px;
+    display: block;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #F5F3EE;
+    border-radius: 5px;
+    background-color: #304034;
+    color: #F5F3EE;
+}
+
+form input[type="text"]::placeholder,
+form input[type="email"]::placeholder,
+form input[type="password"]::placeholder {
+    color: #F5F3EE;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #F5F3EE;
+    color: #304034;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #e0ded9;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.links a {
+    color: #F5F3EE;
+    text-decoration: none;
+    font-size: 0.9rem;
+}

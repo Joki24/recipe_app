@@ -1,0 +1,264 @@
+<!-- mainPage.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Inline CSS for font and icon styles */
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAA...); /* Base64-encoded font file */
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F9F9F9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 80px; /* Adjust width as needed */
+            background-color: #304034; /* Dark background color */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 20px;
+            z-index: 100;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #FFFFFF;
+            display: block;
+            padding: 10px;
+        }
+        .sidebar ul li a .icon {
+            font-size: 24px;
+        }
+        .container {
+            margin-top: 800px;
+            width: calc(100% - 80px); /* Adjust width to account for sidebar */
+            max-width: 1200px; /* Max width of content */
+            padding: 40px;
+            margin-left: 80px; /* Ensure content doesn't overlap sidebar */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .container h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2F3136;
+        }
+        .search-area {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        .search-area h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2F3136;
+        }
+        .search-area input[type="text"], .search-area button {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .categories {
+            overflow-x: auto; /* Enable horizontal scrolling */
+            white-space: nowrap; /* Keep items on a single line */
+            margin-bottom: 40px;
+            padding-bottom: 10px; /* Add some space for the scrollbar */
+        }
+        .category {
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            margin-right: 20px; /* Adjust spacing between categories */
+            padding: 10px;
+            cursor: pointer;
+        }
+        .category:last-child {
+            margin-right: 0;
+        }
+        .category .icon {
+            font-size: 36px;
+            color: #2F3136;
+            margin-bottom: 10px;
+        }
+        .category .name {
+            font-size: 14px;
+            color: #2F3136;
+        }
+        .sections {
+            margin-bottom: 40px;
+        }
+        .section {
+            margin-bottom: 30px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px; /* Adjust spacing between sections */
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section:last-child {
+            margin-right: 0;
+        }
+        .section h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2F3136;
+            margin-bottom: 20px;
+        }
+        .section .recipes {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            gap: 20px;
+        }
+        .recipe {
+            width: 300px; /* Fixed width for each recipe card */
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .recipe img {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .recipe .details {
+            padding: 16px;
+        }
+        .recipe .details h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .recipe .details p {
+            font-size: 14px;
+            color: #666666;
+            margin: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/5b35ca72b5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Main Page</title>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li><a href="/"><i class="icon fa fa-home"></i></a></li>
+            <li><a href="/search"><i class="icon fa fa-search"></i></a></li>
+            <li><a href="/favorites"><i class="icon fa fa-heart"></i></a></li>
+            <li><a href="/profile"><i class="icon fa fa-user"></i></a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="search-area">
+            <h1>Find your next recipe</h1>
+            <form action="/search" method="POST">
+                <input type="text" name="query" placeholder="Search by recipe or ingredients" required>
+                <button type="submit">Search recipe</button>
+            </form>
+        </div>
+        
+        <div class="categories">
+            <div class="category">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <div class="name">Special</div>
+            </div>
+            <div class="category">
+                <div class="icon"><i class="material-icons">breakfast_dining</i></div>
+                <div class="name">Breakfast</div>
+            </div>
+            <div class="category">
+                <div class="icon"><i class="fas fa-utensils"></i></div>
+                <div class="name">Dinner</div>
+            </div>
+            <div class="category">
+                <div class="icon"><i class="fas fa-sun"></i></div>
+                <div class="name">Lunch</div>
+            </div>
+            <!-- Add more categories as needed -->
+        </div>
+        
+        <div class="sections">
+            <div class="section">
+                <h2>Need to try</h2>
+                <div class="recipes">
+                    <% needToTryRecipes.forEach(recipe => { %>
+                        <div class="recipe">
+                            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                            <div class="details">
+                                <h3><%= recipe.title %></h3>
+                                <p>
+                                    <% if (recipe) { %>
+                                        <b>$<%= recipe.pricePerServing ? recipe.pricePerServing.toFixed(2) : 'N/A' %> per serving</b>,
+                                        Serves <b><%= recipe.servings ? recipe.servings : 'N/A' %></b>.
+                                        Prep time: <b><%= recipe.readyInMinutes ? recipe.readyInMinutes + ' minutes' : 'N/A' %></b>.
+                                    <% } else { %>
+                                        Recipe details not available.
+                                    <% } %>
+                                </p>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+    
+            <div class="section">
+                <h2>Summer selection</h2>
+                <div class="recipes">
+                    <% summerSelectionRecipes.forEach(recipe => { %>
+                        <div class="recipe">
+                            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                            <div class="details">
+                                <h3><%= recipe.title %></h3>
+                                <p>
+                                    <% if (recipe) { %>
+                                        <b>$<%= recipe.pricePerServing ? recipe.pricePerServing.toFixed(2) : 'N/A' %> per serving</b>,
+                                        Serves <b><%= recipe.servings ? recipe.servings : 'N/A' %></b>.
+                                        Prep time: <b><%= recipe.readyInMinutes ? recipe.readyInMinutes + ' minutes' : 'N/A' %></b>.
+                                    <% } else { %>
+                                        Recipe details not available.
+                                    <% } %>
+                                </p>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

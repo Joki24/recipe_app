@@ -5,26 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css">
-    <title>Search recipe</title>
+    <title>Find Your Next Favorite Dish with Foddies</title>
 </head>
 <body>
-    <div class="sidebar">
-        <ul>
-            <li><a href="/login"><h1>Log in</h1></a></li>
-            <li><a href="/register"><h1>Register</h1></a></li>
-        </ul>
-    </div>
-    <div class="container">
-        <h1>Find your next recipe</h1>
-        <form action="/search" method="POST">
-            <input type="text" name="query" placeholder="Search by recipe" required>
-            <button type="submit">Search recipe</button>
+    <div class="login-container">
+        <div class="logo">
+            <h1>Fooodiz</h1>
+        </div>
+        <h2>Find Your Next Favorite Dish with Fooodiz</h2>
+        <form action="/" method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Explore the app</button>
+            <div class="links">
+                <a href="/forgot-password">Forgot password?</a>
+                <a href="/register">Don't have an account? Register</a>
+            </div>
         </form>
-        <h1>Find your next recipe by ingredients</h1>
-        <form action="/searchByIngredients" method="POST">
-            <input type="text" name="ingredients" placeholder="Enter ingredients separated by commas" required>
-            <button type="submit">Search recipe by ingrdients</button>
-        </form>
+        <a href="/explore" class="explore-link">Explore the app without logging in</a>
     </div>
 </body>
 </html>

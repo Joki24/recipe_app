@@ -34,9 +34,20 @@ const pool = new Pool({
 //   }
 // });
 
-// Middleware
 app.use(helmet({
-  contentSecurityPolicy: false // Modify as per your specific needs
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://kit.fontawesome.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome", "https://stackpath.bootstrapcdn.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "https://fonts.googleapis.com", "https://ka-f.fontawesome.com"],
+      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts", "https://kit-free.fontawesome.com", "https://ka-f.fontawesome.com"],
+      imgSrc: ["'self'", "data:", "https://img.spoonacular.com"],
+      connectSrc: ["'self'", "https://api.spoonacular.com", "https://ka-f.fontawesome.com"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"]
+    },
+  },
+  reportOnly: false // Set to true if you're testing/reporting violations without blocking
 }));
 
 app.set('trust proxy', 1); // Trust first proxy (Heroku-specific)
@@ -87,6 +98,67 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.post("/", async (req, res) => {
+  const { email, password } = req.body;
+  console.log(`Login attempt with email: ${email}`);
+
+  try {
+    const userQuery = "SELECT * FROM users WHERE email = $1";
+    const userResult = await pool.query(userQuery, [email]);
+
+    if (userResult.rows.length === 0) {
+      console.log("Invalid email");
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    const user = userResult.rows[0];
+    console.log("User found:", user);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log("Password valid:", isPasswordValid);
+
+    if (!isPasswordValid) {
+      console.log("Invalid password");
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    req.session.userId = user.id;
+    console.log("Login successful");
+
+    res.redirect(`/profile/${user.id}`);
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Error logging in", error: error.message });
+  }
+});
+
+app.get('/explore', async (req, res) => {
+  try {
+    console.log("Fetching 'Need to try' recipes...");
+    // Fetch "Need to try" recipes
+    const needToTryResponse = await axios.get(`https://api.spoonacular.com/recipes/random?number=3&apiKey=${key_api}`);
+    const needToTryRecipes = needToTryResponse.data.recipes;
+    console.log("Fetched 'Need to try' recipes:", needToTryRecipes);
+
+    console.log("Fetching 'Summer selection' recipes...");
+    // Fetch "Summer selection" recipes
+    const summerSelectionResponse = await axios.get(`https://api.spoonacular.com/recipes/random?number=3&tags=summer&apiKey=${key_api}`);
+    const summerSelectionRecipes = summerSelectionResponse.data.recipes;
+    console.log("Fetched 'Summer selection' recipes:", summerSelectionRecipes);
+
+    console.log("Need to try recipes:", needToTryRecipes);
+    console.log("Summer selection recipes:", summerSelectionRecipes);
+
+    res.render('mainPage', {
+      needToTryRecipes,        // Ensure needToTryRecipes is passed to the template
+      summerSelectionRecipes
+    });
+  } catch (error) {
+    console.error("Error fetching data from Spoonacular API:", error);
+    res.status(500).send("Error fetching data from Spoonacular API.");
+  }
+});
+
 app.get("/register", (req, res) => {
   res.render("register");
 });
@@ -99,6 +171,14 @@ app.get("/test-ejs", (req, res) => {
   res.render("test-ejs"); // Ensure there's a 'test-ejs.ejs' file in the 'views' directory
 });
 
+app.post('/report-violation', (req, res) => {
+  if (req.body) {
+    console.error('CSP Violation:', req.body);
+  } else {
+    console.error('CSP Violation: No data received!');
+  }
+  res.status(204).end();
+});
 
 app.post("/search", async (req, res) => {
   const { query } = req.body;
@@ -135,6 +215,16 @@ app.get("/recipe/:id", async (req, res) => {
     res.status(500).send("Error fetching recipe information from Spoonacular API.");
   }
 });
+
+app.post('/report-violation', (req, res) => {
+  if (req.body) {
+    console.error('CSP Violation:', req.body);
+  } else {
+    console.error('CSP Violation: No data received!');
+  }
+  res.status(204).end();
+});
+
 
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
