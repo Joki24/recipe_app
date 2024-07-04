@@ -161,20 +161,47 @@ app.get('/explore', async (req, res) => {
     const summerSelectionRecipes = summerSelectionResponse.data.recipes;
     console.log("Fetched 'Summer selection' recipes:", summerSelectionRecipes);
 
-    console.log("Need to try recipes:", needToTryRecipes);
-    console.log("Summer selection recipes:", summerSelectionRecipes);
+    // Example: Fetch userFavorites (replace with your actual logic to fetch user favorites)
+    const userFavorites = await fetchUserFavorites(req.session.userId); // Example function to fetch user favorites
 
-    // Pass userId to the template
+    // Pass userId, recipes, and userFavorites to the template
     res.render('mainPage', {
       needToTryRecipes,
       summerSelectionRecipes,
-      userId: req.session.userId // pass userId to EJS template
+      userId: req.session.userId, // pass userId to EJS template
+      userFavorites // pass userFavorites to EJS template
     });
   } catch (error) {
-    console.error("Error fetching data from Spoonacular API:", error);
-    res.status(500).send("Error fetching data from Spoonacular API.");
+    console.error("Error fetching data:", error);
+    res.status(500).send("Error fetching data.");
   }
 });
+
+// Function to fetch user favorites (liked recipes) based on user_id
+async function fetchUserFavorites(userId) {
+  try {
+    // Connect to the database
+    const client = await pool.connect();
+
+    // SQL query to fetch liked recipes for a specific user
+    const query = {
+      text: 'SELECT * FROM liked_recipes WHERE user_id = $1',
+      values: [userId]
+    };
+
+    // Execute the query
+    const result = await client.query(query);
+
+    // Release the client back to the pool
+    client.release();
+
+    // Return the fetched liked recipes
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching user favorites:', error);
+    throw error; // Throw the error to handle it further up the call stack
+  }
+}
 
 app.get("/register", (req, res) => {
   res.render("register");
