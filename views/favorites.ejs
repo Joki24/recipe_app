@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Recipes</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Your Favorite Recipes</h1>
+    <div class="recipes">
+        <% favoriteRecipes.forEach(recipe => { %>
+            <div class="recipe">
+                <img src="<%= recipe.recipe_image %>" alt="<%= recipe.recipe_title %>">
+                <div class="details">
+                    <h3><%= recipe.recipe_title %></h3>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</body>
+</html>

@@ -399,6 +399,68 @@ app.get("/test-db", async (req, res) => {
   }
 });
 
+// index.js
+app.get('/favorites', isAuthenticated, async (req, res) => {
+  const userId = req.session.userId;
+  
+  try {
+    const favoritesQuery = `
+      SELECT * FROM liked_recipes 
+      WHERE user_id = $1
+    `;
+    const { rows: favoriteRecipes } = await pool.query(favoritesQuery, [userId]);
+    
+    res.render('favorites', { favoriteRecipes });
+  } catch (error) {
+    console.error('Error fetching favorite recipes:', error);
+    res.status(500).send('Error fetching favorite recipes.');
+  }
+});
+
+// Route to handle recipe like
+app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
+  const { recipeId } = req.params;
+  const userId = req.session.userId;
+
+  try {
+    // Check if the recipe is already liked by the user
+    const checkLikeQuery = `
+      SELECT * FROM liked_recipes 
+      WHERE user_id = $1 AND recipe_id = $2
+    `;
+    const { rowCount } = await pool.query(checkLikeQuery, [userId, recipeId]);
+
+    if (rowCount > 0) {
+      // Recipe is already liked, so unlike it (delete from liked_recipes)
+      const unlikeQuery = `
+        DELETE FROM liked_recipes 
+        WHERE user_id = $1 AND recipe_id = $2
+      `;
+      await pool.query(unlikeQuery, [userId, recipeId]);
+    } else {
+      // Recipe is not liked yet, so like it (insert into liked_recipes)
+      const getRecipeQuery = `
+        SELECT title, image FROM recipes WHERE id = $1
+      `;
+      const { rows } = await pool.query(getRecipeQuery, [recipeId]);
+
+      if (rows.length > 0) {
+        const { title, image } = rows[0];
+        const insertLikeQuery = `
+          INSERT INTO liked_recipes (user_id, recipe_id, recipe_title, recipe_image)
+          VALUES ($1, $2, $3, $4)
+        `;
+        await pool.query(insertLikeQuery, [userId, recipeId, title, image]);
+      }
+    }
+
+    res.sendStatus(200); // Send success response
+  } catch (error) {
+    console.error('Error handling like:', error);
+    res.sendStatus(500); // Send error response
+  }
+});
+
 // 404 Error handler
 app.use((req, res) => {
   res.status(404).send("Page not found");
