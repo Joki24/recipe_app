@@ -40,7 +40,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://kit.fontawesome.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome", "https://stackpath.bootstrapcdn.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "https://fonts.googleapis.com", "https://ka-f.fontawesome.com"],
-      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts", "https://kit-free.fontawesome.com", "https://ka-f.fontawesome.com"],
+      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts", "https://kit-free.fontawesome.com", "https://ka-f.fontawesome.com", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts"], // Added https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts
       imgSrc: ["'self'", "data:", "https://img.spoonacular.com"],
       connectSrc: ["'self'", "https://api.spoonacular.com", "https://ka-f.fontawesome.com"],
       objectSrc: ["'none'"],
