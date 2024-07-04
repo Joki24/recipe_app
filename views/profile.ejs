@@ -6,182 +6,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         /* Font and icon styles */
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url(data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAA...); /* Base64-encoded font file */
-}
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAA...); /* Base64-encoded font file */
+        }
 
-/* General styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #F9F9F9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+        /* General styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F9F9F9;
+            margin: 0;
+        }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-    margin-left: 220px; /* Adjust based on your sidebar width */
-    background-color: #FFFFFF;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+        .navbar {
+            background-color: #304034;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
 
-.container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #2F3136;
-}
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
 
-.container h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    text-align: center;
-    color: #2F3136;
-}
+        .navbar-nav {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
 
-.container h3 {
-    font-size: 18px;
-    margin-top: 20px;
-    text-align: center;
-    color: #2F3136;
-}
+        .navbar-nav li {
+            margin-right: 20px;
+        }
 
-.container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        .navbar-nav li:last-child {
+            margin-right: 0;
+        }
 
-.container label {
-    font-size: 18px;
-    margin-bottom: 5px;
-    color: #2F3136;
-}
+        .navbar-nav li a {
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 18px;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
 
-.container input[type="text"],
-.container input[type="email"],
-.container input[type="password"] {
-    padding: 10px;
-    width: 300px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
+        .navbar-nav li a:hover {
+            text-decoration: underline;
+        }
 
-.container button {
-    background-color: #8b7355;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 4px;
-}
+        /* Container styles */
+        .container {
+            max-width: 800px;
+            margin: 100px auto 20px;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-.container button:hover {
-    background-color: #704438;
-}
+        .container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2F3136;
+        }
 
-.container a {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 18px;
-    text-decoration: none;
-    color: #4c4c4c;
-}
+        .container h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #2F3136;
+        }
 
-.container a:hover {
-    text-decoration: underline;
-}
+        .container h3 {
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+            color: #2F3136;
+        }
 
-/* Sidebar styles (assumed to be in styles.css) */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 220px; /* Adjust based on your design */
-    background-color: #304034;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: 20px;
-    z-index: 100;
-}
+        .container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+        .container label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #2F3136;
+        }
 
-.sidebar ul li {
-    margin-bottom: 20px;
-    text-align: center;
-}
+        .container input[type="text"],
+        .container input[type="email"],
+        .container input[type="password"] {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
 
-.sidebar ul li a {
-    text-decoration: none;
-    color: #FFFFFF;
-    display: block;
-    padding: 10px;
-}
+        .container button {
+            background-color: #8b7355;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 4px;
+        }
 
-.sidebar ul li a .icon {
-    font-size: 24px;
-}
+        .container button:hover {
+            background-color: #704438;
+        }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-    .container {
-        margin-left: 0;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-}
+        .container a {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #4c4c4c;
+        }
 
-@media (max-width: 768px) {
-    .sidebar {
-        width: 150px;
-    }
+        .container a:hover {
+            text-decoration: underline;
+        }
 
-    .container {
-        max-width: 600px;
-    }
-}
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
 
-@media (max-width: 480px) {
-    .sidebar {
-        display: none; /* Hide sidebar on smaller screens */
-    }
+        @media (max-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+        }
 
-    .container {
-        margin: 20px;
-    }
-}
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px;
+            }
+
+            .container {
+                margin-top: 60px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <title>Profile page</title>
 </head>
 <body>
-    <div class="sidebar">
-        <ul>
+    <div class="navbar">
+        <a href="/" class="navbar-brand">Your App Name</a>
+        <ul class="navbar-nav">
             <li><a href="/explore">Home</a></li>
-            <li><a href="/favorites"></a>Favorite Recipes</li>
-            <li><a href="/profile"></a>Profile</li>
+            <li><a href="/favorites">Favorite Recipes</a></li>
+            <li><a href="/profile">Profile</a></li>
         </ul>
     </div>
     <div class="container">
