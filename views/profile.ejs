@@ -5,81 +5,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .container {
+        /* Font and icon styles */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAA...); /* Base64-encoded font file */
+}
+
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F9F9F9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
-    margin-left: 220px;
-        }
+    margin-left: 220px; /* Adjust based on your sidebar width */
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+.container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #2F3136;
+}
 
-        h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+.container h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #2F3136;
+}
 
-        h3 {
-            font-size: 18px;
-            margin-top: 20px;
-            text-align: center;
-        }
+.container h3 {
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+    color: #2F3136;
+}
 
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-        label {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
+.container label {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #2F3136;
+}
 
-        input[type="text"], input[type="email"], input[type="password"] {
-            padding: 10px;
-            width: 300px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+.container input[type="text"],
+.container input[type="email"],
+.container input[type="password"] {
+    padding: 10px;
+    width: 300px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
-        button {
-            background-color: #8b7355;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 18px;
-            border-radius: 4px;
-        }
+.container button {
+    background-color: #8b7355;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+}
 
-        button:hover {
-            background-color: #704438;
-        }
+.container button:hover {
+    background-color: #704438;
+}
 
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 18px;
-            text-decoration: none;
-            color: #4c4c4c;
-        }
+.container a {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #4c4c4c;
+}
 
-        a:hover {
-            text-decoration: underline;
-        }
+.container a:hover {
+    text-decoration: underline;
+}
 
+/* Sidebar styles (assumed to be in styles.css) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 220px; /* Adjust based on your design */
+    background-color: #304034;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 100;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar ul li a .icon {
+    font-size: 24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .container {
+        margin-left: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .container {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        display: none; /* Hide sidebar on smaller screens */
+    }
+
+    .container {
+        margin: 20px;
+    }
+}
     </style>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
-    <link rel="stylesheet" type="text/css" href="/public/profile.css">
     <title>Profile page</title>
 </head>
 <body>
