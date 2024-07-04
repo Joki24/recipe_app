@@ -492,6 +492,7 @@ app.post('/like/:recipeId', isAuthenticated, async (req, res) => {
 });
 
 
+
 // 404 Error handler
 app.use((req, res) => {
   res.status(404).send("Page not found");

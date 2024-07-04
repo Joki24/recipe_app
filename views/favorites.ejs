@@ -16,6 +16,9 @@
                 <div class="details">
                     <h3><%= recipe.recipe_title %></h3>
                     <!-- Additional recipe details -->
+                    <form action="/like/<%= recipe.recipe_id %>" method="POST">
+                        <button type="submit">Like</button>
+                    </form>
                 </div>
             </div>
         <% }); %>
