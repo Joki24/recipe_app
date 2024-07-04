@@ -25,15 +25,6 @@ const pool = new Pool({
   }
 });
 
-// // Connect to the database
-// pool.connect((err, client, done) => {
-//   if (err) {
-//     console.error("Error connecting to the database:", err.stack);
-//   } else {
-//     console.log("Connected to the database");
-//   }
-// });
-
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -58,13 +49,6 @@ app.use(helmet({
 }));
 
 app.set('trust proxy', 1); // Trust first proxy (Heroku-specific)
-
-// app.use(session({
-//   secret: sessionSecret,
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: { secure: process.env.NODE_ENV === "production" }
-// }));
 
 // Configure session store with PostgreSQL
 app.use(session({
@@ -180,6 +164,7 @@ async function fetchUserFavorites(userId) {
       values: [userId]
     };
     const result = await pool.query(query);
+    console.log("User favorites fetched:", result.rows); // Add logging to inspect result
     return result.rows;
   } catch (error) {
     console.error('Error fetching user favorites:', error);
