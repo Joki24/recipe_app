@@ -20,6 +20,10 @@
             margin: 0;
             padding: 0;
             color: #3B3A30;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .navbar {
@@ -72,12 +76,13 @@
 
         /* Container styles */
         .container {
-            max-width: 800px;
-            margin: 100px auto 20px;
+            width: 100%;
+            max-width: 600px;
             padding: 20px;
             background-color: #FFFFFF;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .container h1 {
@@ -102,8 +107,7 @@
         .container form {
             display: flex;
             flex-direction: column;
-            width: 100%;
-            max-width: 400px;
+            align-items: center;
             background-color: #304034;
             padding: 20px;
             border-radius: 10px;
@@ -115,18 +119,24 @@
             font-size: 18px;
             margin-bottom: 5px;
             color: #F5F3EE;
+            text-align: left;
+            width: 100%;
+            max-width: 300px; /* Adjust as needed */
         }
 
         .container input[type="text"],
         .container input[type="email"],
-        .container input[type="password"] {
+        .container input[type="password"],
+        .container button {
             width: 100%;
+            max-width: 300px; /* Adjust as needed */
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #F5F3EE;
             border-radius: 5px;
             background-color: #304034;
             color: #F5F3EE;
+            box-sizing: border-box;
         }
 
         .container input[type="text"]::placeholder,
@@ -136,14 +146,12 @@
         }
 
         .container button {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
+            cursor: pointer;
             background-color: #F5F3EE;
             color: #304034;
             font-weight: bold;
             border: none;
-            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .container button:hover {
@@ -186,6 +194,19 @@
                 margin-left: 20px;
                 margin-right: 20px;
             }
+
+            .container label {
+                text-align: left;
+                width: 100%;
+                max-width: 250px; /* Adjust as needed */
+            }
+
+            .container input[type="text"],
+            .container input[type="email"],
+            .container input[type="password"],
+            .container button {
+                max-width: 250px; /* Adjust as needed */
+            }
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
@@ -193,7 +214,7 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="/" class="navbar-brand">Your App Name</a>
+        <a href="/" class="navbar-brand">Fooodiz</a>
         <ul class="navbar-nav">
             <li><a href="/explore">Home</a></li>
             <li><a href="/favorites">Favorite Recipes</a></li>
