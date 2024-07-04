@@ -243,9 +243,6 @@
                     <% needToTryRecipes.forEach(recipe => { %>
                         <div class="recipe">
                             <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-                            <div class="recipe-like" data-recipe-id="<%= recipe.id %>">
-                                <i class="fas fa-heart"></i>
-                            </div>
                             <div class="details">
                                 <h3><%= recipe.title %></h3>
                                 <p>
@@ -269,9 +266,6 @@
                     <% summerSelectionRecipes.forEach(recipe => { %>
                         <div class="recipe">
                             <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-                            <div class="recipe-like" data-recipe-id="<%= recipe.id %>">
-                                <i class="fas fa-heart"></i>
-                            </div>
                             <div class="details">
                                 <h3><%= recipe.title %></h3>
                                 <p>
@@ -290,7 +284,6 @@
             </div>
         </div>
     </div>
-    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const likeButtons = document.querySelectorAll('.recipe-like');
