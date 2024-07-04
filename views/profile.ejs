@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Font and icon styles */
+        /* Inline CSS for font and icon styles */
         @font-face {
             font-family: 'Material Icons';
             font-style: normal;
@@ -15,9 +15,11 @@
 
         /* General styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #F9F9F9;
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #f6f5f5;
             margin: 0;
+            padding: 0;
+            color: #3B3A30;
         }
 
         .navbar {
@@ -79,62 +81,73 @@
         }
 
         .container h1 {
-            font-size: 24px;
+            font-size: 32px;
+            font-weight: bold;
             margin-bottom: 20px;
-            text-align: center;
+            color: #2F3136;
+        }
+
+        .container p {
+            font-size: 18px;
+            margin-bottom: 20px;
             color: #2F3136;
         }
 
         .container h2 {
             font-size: 20px;
             margin-bottom: 15px;
-            text-align: center;
-            color: #2F3136;
-        }
-
-        .container h3 {
-            font-size: 18px;
-            margin-top: 20px;
-            text-align: center;
             color: #2F3136;
         }
 
         .container form {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            background-color: #304034;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #F5F3EE;
         }
 
         .container label {
             font-size: 18px;
             margin-bottom: 5px;
-            color: #2F3136;
+            color: #F5F3EE;
         }
 
         .container input[type="text"],
         .container input[type="email"],
         .container input[type="password"] {
+            width: 100%;
             padding: 10px;
-            width: 300px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #F5F3EE;
+            border-radius: 5px;
+            background-color: #304034;
+            color: #F5F3EE;
+        }
+
+        .container input[type="text"]::placeholder,
+        .container input[type="email"]::placeholder,
+        .container input[type="password"]::placeholder {
+            color: #F5F3EE;
         }
 
         .container button {
-            background-color: #8b7355;
-            color: #fff;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #F5F3EE;
+            color: #304034;
+            font-weight: bold;
             border: none;
-            padding: 10px 20px;
             cursor: pointer;
-            font-size: 18px;
-            border-radius: 4px;
         }
 
         .container button:hover {
-            background-color: #704438;
+            background-color: #e0ded9;
         }
 
         .container a {
