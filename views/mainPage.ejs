@@ -54,7 +54,7 @@
             font-size: 24px;
         }
         .container {
-            margin-top: 2000px; /* Adjust margin-top to ensure it's below the fixed sidebar */
+            margin-top: 2200px; /* Adjust margin-top to ensure it's below the fixed sidebar */
             width: calc(100% - 80px); /* Adjust width to account for sidebar */
             max-width: 1200px; /* Max width of content */
             padding: 40px;
@@ -96,10 +96,11 @@
             box-sizing: border-box;
         }
         .categories {
-            overflow-x: auto; /* Enable horizontal scrolling */
-            white-space: nowrap; /* Keep items on a single line */
+            overflow-x: auto;
+            white-space: nowrap;
             margin-bottom: 40px;
-            padding-bottom: 10px; /* Add some space for the scrollbar */
+            padding-bottom: 10px;
+            display: flex;
         }
         .category {
             display: inline-block; /* Ensure categories are displayed horizontally */
