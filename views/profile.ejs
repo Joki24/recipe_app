@@ -84,7 +84,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-top: 200px;
+            margin-top: 100px;
         }
 
         .container h1 {
@@ -115,6 +115,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             color: #F5F3EE;
+            margin-bottom: 20px; /* Add margin-bottom to separate forms */
         }
 
         .container label {
@@ -230,20 +231,16 @@
         <form action="/profile/update" method="POST">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" value="<%= user.username %>" required autocomplete="username">
-            <br>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" value="<%= user.email %>" required autocomplete="email">
-            <br>
             <button type="submit">Update Profile</button>
         </form>
         <h2>Change Password</h2>
         <form action="/profile/change-password" method="POST">
             <label for="currentPassword">Current Password:</label>
             <input type="password" id="currentPassword" name="currentPassword" required autocomplete="current-password">
-            <br>
             <label for="newPassword">New Password:</label>
             <input type="password" id="newPassword" name="newPassword" required autocomplete="new-password">
-            <br>
             <button type="submit">Change Password</button>
         </form>
         <h3><a href="/">Log out</a></h3>
