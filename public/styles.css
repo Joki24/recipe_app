@@ -57,7 +57,7 @@ form input[type="password"]::placeholder {
 }
 
 form button {
-  width: 100%;
+  width: 105%;
   padding: 10px;
   border-radius: 5px;
   background-color: #F5F3EE;
